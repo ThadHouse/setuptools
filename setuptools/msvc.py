@@ -747,6 +747,8 @@ class SystemInfo:
         """
         path = self._guess_vc() or self._guess_vc_legacy()
 
+        print(f"Found VC {path}")
+
         if not isdir(path):
             msg = 'Microsoft Visual C++ directory not found'
             raise distutils.errors.DistutilsPlatformError(msg)
@@ -762,6 +764,8 @@ class SystemInfo:
         str
             path
         """
+        print(f"Attempting to find VC {self.vs_ver}")
+
         if self.vs_ver <= 14.0:
             return ''
 
