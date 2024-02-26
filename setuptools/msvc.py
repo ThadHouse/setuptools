@@ -778,13 +778,19 @@ class SystemInfo:
         # https://devblogs.microsoft.com/cppblog/finding-the-visual-c-compiler-tools-in-visual-studio-2017/#identifying-the-vc-compiler-tools-version
         try:
             default_file = join(vs_dir, r'VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt')
+            print(f"Checking default file {default_file}")
             with open(default_file) as f:
                 default_version = f.read().strip()
+            print(f"Default Version {default_version}")
             vc_ver_folder = join(guess_vc, default_version)
+            print(f"Version Folder {vc_ver_folder}")
             if isdir(vc_ver_folder):
+                print(f"Version folder exists")
                 self.vc_ver = self._as_float_version(default_version)
+                print(f"Computed VC ver {self.vc_ver}")
                 return vc_ver_folder
         except:
+            print("Threw exception")
             pass
 
         # Subdir with VC exact version as name
