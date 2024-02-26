@@ -181,6 +181,7 @@ def _msvc14_get_vc_env(plat_spec):
         return {key.lower(): value for key, value in environ.items()}
 
     vcvarsall, vcruntime = _msvc14_find_vcvarsall(plat_spec)
+    print(f"vcvars {vcvarsall} {plat_spec} {vcruntime}")
     if not vcvarsall:
         raise distutils.errors.DistutilsPlatformError("Unable to find vcvarsall.bat")
 
@@ -202,6 +203,7 @@ def _msvc14_get_vc_env(plat_spec):
 
     if vcruntime:
         env['py_vcruntime_redist'] = vcruntime
+    print(f"Env {env}")
     return env
 
 

@@ -127,6 +127,7 @@ def _find_vcvarsall(plat_spec):
         return None, None
 
     vcvarsall = os.path.join(best_dir, "vcvarsall.bat")
+    raise ValueError(f"vcvarsall {vcvarsall}")
     if not os.path.isfile(vcvarsall):
         log.debug("%s cannot be found", vcvarsall)
         return None, None
@@ -135,10 +136,12 @@ def _find_vcvarsall(plat_spec):
 
 
 def _get_vc_env(plat_spec):
+    print(f"plat {plat_spec}")
     if os.getenv("DISTUTILS_USE_SDK"):
         return {key.lower(): value for key, value in os.environ.items()}
 
     vcvarsall, _ = _find_vcvarsall(plat_spec)
+    print(f"vcvarsall2 {vcvarsall}")
     if not vcvarsall:
         raise DistutilsPlatformError("Unable to find vcvarsall.bat")
 
@@ -250,16 +253,21 @@ class MSVCCompiler(CCompiler):
         # Get the vcvarsall.bat spec for the requested platform.
         plat_spec = PLAT_TO_VCVARS[plat_name]
 
+        print(f"Calling _get_vc_env {_get_vc_env}")
+
         vc_env = _get_vc_env(plat_spec)
+        print("Called _get_vc_env")
         if not vc_env:
             raise DistutilsPlatformError(
                 "Unable to find a compatible " "Visual Studio installation."
             )
+
         self._configure(vc_env)
 
         self._paths = vc_env.get('path', '')
         paths = self._paths.split(os.pathsep)
         self.cc = _find_exe("cl.exe", paths)
+        print(f"cc {self.cc}")
         self.linker = _find_exe("link.exe", paths)
         self.lib = _find_exe("lib.exe", paths)
         self.rc = _find_exe("rc.exe", paths)  # resource compiler
