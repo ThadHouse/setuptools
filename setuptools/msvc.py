@@ -1269,6 +1269,7 @@ class EnvironmentInfo:
         list of str
             paths
         """
+        print("Looking for VC tools")
         si = self.si
         tools = [join(si.VCInstallDir, 'VCPackages')]
 
