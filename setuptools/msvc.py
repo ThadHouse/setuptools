@@ -186,7 +186,7 @@ def _msvc14_get_vc_env(plat_spec):
 
     try:
         out = subprocess.check_output(
-            'cmd /u /c "{}" {} && set'.format(vcvarsall, plat_spec),
+            'cmd /u /c "{}" {} -vcvars_ver=14.39 && set'.format(vcvarsall, plat_spec),
             stderr=subprocess.STDOUT,
         ).decode('utf-16le', errors='replace')
     except subprocess.CalledProcessError as exc:
